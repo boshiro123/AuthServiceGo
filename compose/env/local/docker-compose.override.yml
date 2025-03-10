@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  legal-docs-api:
+    container_name: legal-docs-api
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+      args:
+        TARGET_ARCH: ${TARGET_ARCH}
+        TARGET_SERVICE: legal-docs-ai
+
+    volumes:
+      - ../env/local/config-local.yaml:/go/config/config.yaml
+
+    depends_on:
+        - legal-docs-ai-db
+    networks:
+      - legal-docs-ai-net
+    ports:
+      - "9000:9000"
+  pgadmin:
+    image: dpage/pgadmin4:6.14
+    ports:
+      - "5050:80"
+    networks:
+      - legal-docs-ai-net
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin

@@ -6,4 +6,12 @@ install:
 	&& go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
 
+run:
+	go run cmd/auth-service/main.go
 
+
+db:
+	docker compose \
+  --env-file compose/env/local/.env \
+  -f compose/base/docker-compose.db.yml \
+  up -d

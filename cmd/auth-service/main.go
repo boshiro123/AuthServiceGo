@@ -1,7 +1,22 @@
-package authservice
+package main
 
-import "fmt"
+import (
+	"fmt"
+	"urlshortener/pkg/config"
+)
 
-func main(){
+func main() {
 	fmt.Println("its start working")
+
+	cfg := config.MustLoad()
+
+	fmt.Println(cfg)
+
+	// TODO: config
+
+	// TODO: logger
+
+	// TODO: initialize app
+
+	// TODO: run gr
 }

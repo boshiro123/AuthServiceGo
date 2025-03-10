@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  legal-docs-ai-migrations:
+    image: migrate/migrate:latest
+    command:
+      [ "-path", "/database", "-database",  "postgres://legal-docs:legal-docs@legal-docs-ai-db:5432/legal-docs?sslmode=disable", "up" ]
+
+    volumes:
+      - ../../build/legal-docs-ai-migrations/migrations:/database
+
+    depends_on:
+      - legal-docs-ai-db
+
+    networks:
+      - legal-docs-ai-net
+
+networks:
+  legal-docs-ai-net:
+    name: legal-docs-ai-net
+    external: true

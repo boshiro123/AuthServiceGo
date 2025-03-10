@@ -1,0 +1,19 @@
+secrets:
+  jwt: "kfmmkmkmkmk"
+app:
+  port: ":9000"
+postgres:
+  host: "auth-go-db"
+  port: 5432
+  user: "root"
+  password: "root"
+  dbname: "auth-go"
+  sslmode: "disable"
+
+env: local
+
+grpc:
+  port: 9000
+  timeout: 10h
+
+token_ttl: 1h
