@@ -1,8 +1,10 @@
 package main
 
 import (
+	"auth-service-go/pkg/config"
+	"auth-service-go/pkg/logger"
 	"fmt"
-	"urlshortener/pkg/config"
+	"log/slog"
 )
 
 func main() {
@@ -12,9 +14,11 @@ func main() {
 
 	fmt.Println(cfg)
 
-	// TODO: config
+	log := logger.SetupLogger(cfg.Env)
 
-	// TODO: logger
+	log.Info("starting auth service",
+		slog.Any("config", cfg),
+	)
 
 	// TODO: initialize app
 

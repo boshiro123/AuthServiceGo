@@ -1,4 +1,4 @@
-module urlshortener
+module auth-service-go
 
 go 1.23.0
 
