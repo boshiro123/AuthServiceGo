@@ -13,3 +13,4 @@ local.env
 # ./compose/env/local/.env
 
 
+# ./pkg/proto/generated
