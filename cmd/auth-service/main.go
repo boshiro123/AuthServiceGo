@@ -6,6 +6,9 @@ import (
 	"auth-service-go/pkg/logger"
 	"fmt"
 	"log/slog"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -19,10 +22,19 @@ func main() {
 
 	log.Info("starting auth service",
 		slog.Any("config", cfg),
-	)
+		slog.String("file", "cmd/auth-service/main.go"),
+)
 
 	application := app.New(log, cfg.GRPC.Port, cfg.TokenTTL)
 	// TODO: initialize app
-	application.GRPCServer.MustRun()
+	go application.GRPCServer.MustRun()
 	// TODO: run gr
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGINT)
+	sign:=<-stop
+
+	log.Info("stopping auth service", slog.String("signal", sign.String()))
+	application.GRPCServer.Stop()
+	log.Info("auth service stopped")
 }

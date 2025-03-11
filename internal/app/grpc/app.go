@@ -36,6 +36,7 @@ func (a *App) Run() error {
 	log := a.log.With(
 		slog.String("op", op),
 		slog.Int("port", a.port),
+		slog.String("file", "internal/app/grpc/app.go"),
 	)
 
 	log.Info("starting grpc server")
@@ -45,7 +46,8 @@ func (a *App) Run() error {
 		return fmt.Errorf("%s: %w", op, err)
 	}
 
-	log.Info("grpc server running", slog.String("address", l.Addr().String()))
+	log.Info("grpc server running", slog.String("address", l.Addr().String()),
+		slog.String("file", "internal/app/grpc/app.go"))
 
 	if err := a.gRPC.Serve(l); err != nil {
 		return fmt.Errorf("%s: %w", op, err)
