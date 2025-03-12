@@ -8,15 +8,29 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
+var configFlags = flag.NewFlagSet("config", flag.ContinueOnError)
+var configPath string
+
+func init() {
+	configFlags.StringVar(&configPath, "config", "", "path to config file")
+}
+
 type Config struct {
 	Env      string        `yaml:"env" env-default:"local"`
 	TokenTTL time.Duration `yaml:"token_ttl"`
-	GRPC    GrpcConfig    `yaml:"grpc"`
+	GRPC     GrpcConfig    `yaml:"grpc"`
+	Secrets  Secrets       `yaml:"secrets"`
+	Postgres Postgres      `yaml:"postgres"`
 }
 
 type GrpcConfig struct {
 	Port    int           `yaml:"port"`
 	Timeout time.Duration `yaml:"timeout"`
+}
+
+type Secrets struct {
+	SecretKey string `yaml:"jwt"`
+	Salt      string `yaml:"salt"`
 }
 
 type Postgres struct {
@@ -49,14 +63,5 @@ func MustLoad() *Config {
 }
 
 func getConfigPath() string {
-	var res string
-
-	flag.StringVar(&res, "config", "", "config file path")
-	flag.Parse()
-
-	if res == "" {
-		res = os.Getenv("CONFIG_PATH")
-	}
-
-	return res
+	return os.Getenv("CONFIG_PATH")
 }

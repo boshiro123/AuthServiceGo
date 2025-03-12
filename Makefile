@@ -1,5 +1,6 @@
 generate-protos:
-	protos/protoc -I proto proto/sso/sso.proto --go_out=./gen/go/ --go_opt=paths=source_relative --go-grpc_out=./gen/go/ --go-grpc_opt=paths=source_relative
+	protoc -I . pkg/proto/schemas/sso.proto --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative
+
 
 install:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest 
@@ -9,6 +10,8 @@ install:
 run:
 	go run cmd/auth-service/main.go
 
+config:
+	export CONFIG_PATH=./compose/env/local/config-local.yaml
 
 db:
 	docker compose \

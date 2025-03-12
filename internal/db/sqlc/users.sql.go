@@ -3,7 +3,7 @@
 //   sqlc v1.28.0
 // source: users.sql
 
-package repository
+package sqlc
 
 import (
 	"context"
@@ -24,7 +24,7 @@ type CreateUserParams struct {
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
-	_, err := q.db.ExecContext(ctx, createUser,
+	_, err := q.db.Exec(ctx, createUser,
 		arg.ID,
 		arg.Name,
 		arg.Email,
@@ -38,7 +38,7 @@ SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users
 `
 
 func (q *Queries) FindAllUsers(ctx context.Context) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, findAllUsers)
+	rows, err := q.db.Query(ctx, findAllUsers)
 	if err != nil {
 		return nil, err
 	}
@@ -58,9 +58,6 @@ func (q *Queries) FindAllUsers(ctx context.Context) ([]User, error) {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

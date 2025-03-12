@@ -5,6 +5,5 @@ sql:
     schema: "./build/auth-service-migrations/migrations"
     gen:
       go:
-        package: "repository"
         out: "internal/db/sqlc"
         sql_package: "pgx/v5"

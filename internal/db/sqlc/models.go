@@ -2,20 +2,18 @@
 // versions:
 //   sqlc v1.28.0
 
-package repository
+package sqlc
 
 import (
-	"database/sql"
-
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type User struct {
-	ID        uuid.UUID
+	ID        pgtype.UUID
 	Name      string
 	Email     string
 	Password  string
-	CreatedAt sql.NullTime
-	UpdatedAt sql.NullTime
-	DeletedAt sql.NullTime
+	CreatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp
+	DeletedAt pgtype.Timestamp
 }

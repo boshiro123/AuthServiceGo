@@ -1,6 +1,7 @@
 package store
 
 import (
+	"auth-service-go/pkg/config"
 	"context"
 	"fmt"
 

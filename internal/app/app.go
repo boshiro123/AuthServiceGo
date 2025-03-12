@@ -2,6 +2,7 @@ package app
 
 import (
 	grpcapp "auth-service-go/internal/app/grpc"
+	"auth-service-go/internal/services"
 	"log/slog"
 	"time"
 )
@@ -12,10 +13,12 @@ type App struct {
 
 func New(
 	log *slog.Logger,
-	gprcPort int,
+	port int,
+	authService services.AuthService,
 	tokenTTL time.Duration,
 ) *App {
-	grpcApp := grpcapp.New(log, gprcPort)
+
+	grpcApp := grpcapp.New(log, &authService, port)
 
 	return &App{
 		GRPCServer: grpcApp,
