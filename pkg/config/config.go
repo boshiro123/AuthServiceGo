@@ -18,14 +18,9 @@ func init() {
 type Config struct {
 	Env      string        `yaml:"env" env-default:"local"`
 	TokenTTL time.Duration `yaml:"token_ttl"`
-	GRPC     GrpcConfig    `yaml:"grpc"`
 	Secrets  Secrets       `yaml:"secrets"`
 	Postgres Postgres      `yaml:"postgres"`
-}
-
-type GrpcConfig struct {
-	Port    int           `yaml:"port"`
-	Timeout time.Duration `yaml:"timeout"`
+	App      App           `yaml:"app"`
 }
 
 type Secrets struct {
@@ -40,6 +35,10 @@ type Postgres struct {
 	Password string `yaml:"password"`
 	DBName   string `yaml:"dbname"`
 	SSLMode  string `yaml:"sslmode"`
+}
+
+type App struct {
+	Port string `yaml:"port"`
 }
 
 func MustLoad() *Config {

@@ -13,8 +13,4 @@ postgres:
 
 env: local
 
-grpc:
-  port: 44044
-  timeout: 10h
-
 token_ttl: 1h
