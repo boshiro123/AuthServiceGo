@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -22,8 +23,9 @@ func NewAuth(db *pgxpool.Pool, query *sqlc.Queries) *AuthRepository {
 }
 
 func (a *AuthRepository) CreateUser(ctx context.Context, user model.User) error {
+
 	err := a.query.CreateUser(ctx, sqlc.CreateUserParams{
-		ID:       uuid.New(),
+		ID:       pgtype.UUID{Bytes: uuid.New(), Valid: true},
 		Email:    user.Email,
 		Name:     user.Name,
 		Password: user.PasswordHash,

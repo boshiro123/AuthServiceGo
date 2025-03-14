@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  db:
+  auth-db:
     image: postgres:16
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -10,14 +10,14 @@ services:
     volumes:
       - auth-go:/var/lib/postgresql/data
     ports:
-      - ${POSTGRES_LOCAL_PORT}:${POSTGRES_DOCKER_PORT}
-    networks:
-      - auth-go-net
+      - "${POSTGRES_LOCAL_PORT:-5432}:${POSTGRES_DOCKER_PORT:-5432}"
+    # networks:
+    #   - auth-go-net
     # healthcheck:
     #   test:
     #     [
     #       "CMD-SHELL",
-    #       "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -h localhost",
+    #       "pg_isready -U ${POSTGRES_USER:-auth} -d ${POSTGRES_DB:-auth} -h localhost",
     #     ]
     #   interval: 30s
     #   timeout: 10s
@@ -25,8 +25,7 @@ services:
 
 volumes:
   auth-go:
-
-networks:
-  auth-go-net:
-    name: auth-go-net
-    external: true
+# networks:
+#   auth-go-net:
+#     name: auth-go-net
+#     external: true

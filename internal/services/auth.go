@@ -4,6 +4,7 @@ import (
 	model "auth-service-go/internal/models"
 	"auth-service-go/pkg/auth"
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -29,6 +30,8 @@ func (s *AuthService) Register(ctx context.Context, user model.RegisterRequest) 
 		Email:        user.Email,
 		Name:         user.Name,
 		PasswordHash: auth.GeneratePasswordHash(user.Password),
+		CreatedAt:    time.Now().Unix(),
+		UpdatedAt:    time.Now().Unix(),
 	}
 
 	if err := s.authorization.CreateUser(ctx, u); err != nil {
@@ -45,6 +48,11 @@ func (s *AuthService) Register(ctx context.Context, user model.RegisterRequest) 
 		RefreshToken: refreshToken,
 		UserID:       userID,
 	}, nil
+}
+
+func (s *AuthService) Ping(ctx context.Context) (string, error) {
+	// Здесь можно добавить проверку доступности базы данных или других сервисов
+	return "pong", nil
 }
 
 // func (s *AuthService) SignIn(ctx context.Context, user model.SignInRequest) (model.Tokens, error) {

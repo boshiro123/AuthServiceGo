@@ -8,7 +8,7 @@ package sqlc
 import (
 	"context"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createUser = `-- name: CreateUser :exec
@@ -17,7 +17,7 @@ VALUES ($1, $2, $3, $4, NOW(), NOW())
 `
 
 type CreateUserParams struct {
-	ID       uuid.UUID
+	ID       pgtype.UUID
 	Name     string
 	Email    string
 	Password string

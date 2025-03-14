@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  auth-db:
+    extends:
+      file: ./base/docker-compose.db.yml
+      service: auth-db
+
+  auth-service:
+    extends:
+      file: ./env/local/docker-compose.override.yml
+      service: auth-service
+    depends_on:
+      - auth-db
+
+  pgadmin:
+    extends:
+      file: ./env/local/docker-compose.override.yml
+      service: pgadmin
+    depends_on:
+      - auth-db
+
+volumes:
+  auth-go:
+# networks:
+#   auth-go-net:
+#     name: auth-go-net
+#     external: true

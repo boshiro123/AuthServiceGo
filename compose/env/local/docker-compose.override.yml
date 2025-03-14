@@ -1,30 +1,28 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  legal-docs-api:
-    container_name: legal-docs-api
+  auth-service:
+    container_name: auth-service
     build:
       context: ../../
       dockerfile: Dockerfile
       args:
         TARGET_ARCH: ${TARGET_ARCH}
-        TARGET_SERVICE: legal-docs-ai
-
+        TARGET_SERVICE: auth-service
     volumes:
       - ../env/local/config-local.yaml:/go/config/config.yaml
-
     depends_on:
-        - legal-docs-ai-db
-    networks:
-      - legal-docs-ai-net
+      - auth-db
+    # networks:
+    #   - auth-go-net
     ports:
       - "9000:9000"
   pgadmin:
     image: dpage/pgadmin4:6.14
     ports:
       - "5050:80"
-    networks:
-      - legal-docs-ai-net
+    # networks:
+    #   - auth-go-net
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.org
       - PGADMIN_DEFAULT_PASSWORD=admin

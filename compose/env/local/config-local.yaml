@@ -4,11 +4,11 @@ secrets:
 app:
   port: "9000"
 postgres:
-  host: "auth-go-db"
+  host: "auth-db"
   port: 5432
   user: "root"
   password: "root"
-  dbname: "auth-go"
+  dbname: "auth-db"
   sslmode: "disable"
 
 env: local
