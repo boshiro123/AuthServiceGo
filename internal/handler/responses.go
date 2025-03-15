@@ -13,6 +13,14 @@ type RegisterResponse struct {
 	Tokens model.Tokens `json:"tokens"`
 }
 
+type LoginResponse struct {
+	Tokens model.Tokens `json:"tokens"`
+}
+
+type RefreshResponse struct {
+	Tokens model.Tokens `json:"tokens"`
+}
+
 // type SignInResponse struct {
 // 	Tokens model.Tokens `json:"tokens"`
 // }

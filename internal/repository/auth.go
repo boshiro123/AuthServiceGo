@@ -35,3 +35,16 @@ func (a *AuthRepository) CreateUser(ctx context.Context, user model.User) error 
 	}
 	return nil
 }
+
+func (a *AuthRepository) GetUserByEmail(ctx context.Context, email string) (model.User, error) {
+	user, err := a.query.GetUserByEmail(ctx, email)
+	if err != nil {
+		return model.User{}, err
+	}
+	return model.User{
+		ID:           user.ID.Bytes,
+		Email:        user.Email,
+		Name:         user.Name,
+		PasswordHash: user.Password,
+	}, nil
+}

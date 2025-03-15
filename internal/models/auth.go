@@ -14,6 +14,10 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+type RefreshRequest struct {
+	RefreshToken string `json:"refresh_token"`
+}
+
 var (
 	ErrInvalidPassword = errors.New("invalid password")
 )

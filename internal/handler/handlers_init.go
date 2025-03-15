@@ -14,7 +14,9 @@ import (
 
 type Authorization interface {
 	Register(ctx context.Context, user model.RegisterRequest) (model.Tokens, error)
+	Login(ctx context.Context, user model.LoginRequest) (model.Tokens, error)
 	Ping(ctx context.Context) (string, error)
+	Refresh(ctx context.Context, user model.RefreshRequest) (model.Tokens, error)
 	// SignIn(ctx context.Context, user model.SignInRequest) (model.Tokens, error)
 }
 
@@ -50,7 +52,8 @@ func (h *Handler) InitRoutes() {
 	// Публичные роуты
 	api.POST("/register", h.registerHandler)
 	api.POST("/ping", h.pingHandler)
-	// api.POST("/sign_in", h.signInHandler)
+	api.POST("/login", h.loginHandler)
+	api.POST("/refresh", h.refreshHandler)
 
 	// Защищённые роуты (требуют JWT-аутентификации)
 	// protected := api.Group("/")

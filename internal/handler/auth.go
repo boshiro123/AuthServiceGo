@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"auth-service-go/internal/models"
+	model "auth-service-go/internal/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -31,6 +31,38 @@ func (h *Handler) registerHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, RegisterResponse{Tokens: tokens})
+}
+
+func (h *Handler) loginHandler(c *gin.Context) {
+	var user model.LoginRequest
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	tokens, err := h.authorization.Login(c.Request.Context(), user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, LoginResponse{Tokens: tokens})
+}
+
+func (h *Handler) refreshHandler(c *gin.Context) {
+	var user model.RefreshRequest
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	tokens, err := h.authorization.Refresh(c.Request.Context(), user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, RefreshResponse{Tokens: tokens})
 }
 
 // @Summary Sign In
